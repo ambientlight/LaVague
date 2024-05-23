@@ -3,7 +3,7 @@
 <a target="_blank" href="https://colab.research.google.com/github/lavague-ai/LaVague/blob/main/examples/Idefics_LaVague_notebook.ipynb">
 <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
-This notebook shows how one can combine Hugging Face [Idefics2-8b](https://huggingface.co/HuggingFaceM4/idefics2-8b) model with LaVague to create an agent that can take a CV, perform OCR and apply to jobs automatically by filling a candidate form.
+In this example (available as a notebook), we will show how one can combine Hugging Face [Idefics2-8b](https://huggingface.co/HuggingFaceM4/idefics2-8b) model with LaVague to create an agent that can take a CV, perform OCR and apply to jobs automatically by filling a candidate form.
 
 You can see it in action below:
 
@@ -30,7 +30,7 @@ For this example, we will use Hugging Face Inference API, OpenAI API, and LaVagu
 ```
 
 
-We will need to set our OpenAI Key. If you are running this as a Colab, you can provide it through Colab secrets (see the key icon on the left-hand side of the Colab notebook) named 'OPENAI_API_KEY' and then convert it to an environment variable with the same name.
+We will need to set our OpenAI Key. If you are running this as a Colab, you can provide it through Colab secrets (see the key icon on the left-hand side of the Colab notebook) named ```OPENAI_API_KEY``` and then convert it to an environment variable with the same name.
 
 ```python
 import os
@@ -130,8 +130,6 @@ display(Image(url))
 !["idefics demo"](https://d25zcttzf44i59.cloudfront.net/minimalist-resume-template.png)
 
 
-
-
 We can now extract the person's details using Idefics2-8b:
 
 
@@ -143,6 +141,23 @@ query = "Extract name, email, phone number, current company, a summary of experi
 user_data = hf_mm_llm.complete(query=query, url=url)
 
 print(user_data)
+```
+
+The code above outputs the following data extracted by the IDEFICS model
+
+```
+name: Justine Debowski
+email: justinedeb@email.com
+phone_number: (123) 456-7890
+current_company: IMA Financial Group, Inc.
+experience:
+  - Lead Insurance Data Analyst
+  - Pie Insurance
+education:
+  - Colorado College
+  - Boulder College
+  - Metropolitan State University of Denver
+  - University of Colorado at Denver.
 ```
 
 Our class defined above takes URL as inputs. This seems to be because Hugging Face API only accepts images through URL `prompt_with_image = SYSTEM_PROMPT + f"User:![]({img_url}) {query}<end_of_utterance>\nAssistant:"`.
